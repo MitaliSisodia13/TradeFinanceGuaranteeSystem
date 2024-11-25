@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminGuaranteeController;
 use App\Http\Controllers\Admin\AdminFileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Applicant\ApplicantGuaranteeController;
 
@@ -54,17 +55,6 @@ Route::prefix('reviewer')->name('reviewer.')->middleware('auth')->group(function
     Route::post('guarantees/{guarantee}/review', [ReviewerGuaranteeController::class, 'review'])->name('guarantees.review');
 });
 
-
-// Issuer Routes
-Route::prefix('issuer')->name('issuer.')->middleware('auth')->group(function () {
-    Route::get('dashboard', [IssuerController::class, 'dashboard'])->name('dashboard');
-});
-
-// Auditor Routes
-Route::prefix('auditor')->name('auditor.')->middleware('auth')->group(function () {
-    Route::get('dashboard', [AuditorController::class, 'dashboard'])->name('dashboard');
-});
-
 // Guarantees
 Route::resource('guarantees', GuaranteeController::class)->middleware('auth');
 
@@ -77,3 +67,6 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Auth::routes(['logout' => false]); // Disable default logout route
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);

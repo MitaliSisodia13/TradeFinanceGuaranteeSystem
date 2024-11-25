@@ -46,7 +46,6 @@ class AuthenticatedSessionController extends Controller
     }
     protected function authenticated(Request $request, $user)
 {
-    \Log::info('Redirecting user: ', ['role' => $user->role]);
     
     if ($user->role === 'admin') {
         return redirect()->route('admin.dashboard');
@@ -54,11 +53,7 @@ class AuthenticatedSessionController extends Controller
         return redirect()->route('applicant.dashboard');
     } elseif ($user->role === 'reviewer') {
         return redirect()->route('reviewer.dashboard');
-    } elseif ($user->role === 'issuer') {
-        return redirect()->route('issuer.dashboard');
-    } elseif ($user->role === 'auditor') {
-        return redirect()->route('auditor.dashboard');
-    }
+    } 
 
     return redirect('/'); // Default fallback
 }
